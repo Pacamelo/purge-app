@@ -1,7 +1,15 @@
 {
-  "name": "@purge/app",
+  "name": "purge-app",
   "version": "0.1.0",
   "private": true,
+  "description": "Client-side PII detection that runs entirely in your browser. Your data never leaves your device.",
+  "author": "Pacamelo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pacamelo/purge-app.git"
+  },
+  "homepage": "https://purgedata.app",
   "type": "module",
   "scripts": {
     "dev": "vite",
