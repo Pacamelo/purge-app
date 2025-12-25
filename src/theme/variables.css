@@ -1,0 +1,50 @@
+/**
+ * PURGE Theme Variables
+ * Standalone theme system for purgedata.app
+ */
+
+:root {
+  /* Default theme: Dark office aesthetic */
+  --forge-bg-primary: #0d0d0d;
+  --forge-bg-secondary: #1a1a1a;
+  --forge-bg-tertiary: #252525;
+  --forge-text-primary: #e0e0e0;
+  --forge-text-secondary: #a0a0a0;
+  --forge-text-dim: #606060;
+  --forge-accent: #00d4aa;
+  --forge-border: #333333;
+  --forge-success: #22c55e;
+  --forge-warning: #f59e0b;
+  --forge-error: #ef4444;
+
+  /* Font settings */
+  --font-mono: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+/* Amber theme (warm, retro) */
+[data-theme="amber"] {
+  --forge-accent: #f59e0b;
+  --forge-bg-primary: #0f0a05;
+  --forge-bg-secondary: #1a1408;
+  --forge-bg-tertiary: #251e0c;
+}
+
+/* Green theme (terminal/hacker) */
+[data-theme="green"] {
+  --forge-accent: #22c55e;
+  --forge-bg-primary: #050f0a;
+  --forge-bg-secondary: #081a10;
+  --forge-bg-tertiary: #0c2518;
+}
+
+/* High contrast (accessibility) */
+[data-theme="high-contrast"] {
+  --forge-bg-primary: #000000;
+  --forge-bg-secondary: #0a0a0a;
+  --forge-bg-tertiary: #141414;
+  --forge-text-primary: #ffffff;
+  --forge-text-secondary: #cccccc;
+  --forge-text-dim: #808080;
+  --forge-accent: #00ffcc;
+  --forge-border: #444444;
+}

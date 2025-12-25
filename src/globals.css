@@ -1,0 +1,55 @@
+/* Theme variables - must be first */
+@import './theme/variables.css';
+
+/* PURGE-specific styles */
+@import './index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--forge-bg-primary);
+  color: var(--forge-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--forge-bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--forge-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forge-text-dim);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--forge-accent);
+  color: var(--forge-bg-primary);
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--forge-accent);
+  outline-offset: 2px;
+}
