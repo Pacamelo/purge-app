@@ -77,7 +77,7 @@ export async function downloadFilesAsZip(
     });
 
     // Download the ZIP
-    const blob = new Blob([zipped], { type: 'application/zip' });
+    const blob = new Blob([new Uint8Array(zipped)], { type: 'application/zip' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
