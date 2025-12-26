@@ -19,7 +19,7 @@ export default function Landing() {
     },
     {
       q: 'How accurate is the PII detection?',
-      a: 'Our regex-based detection catches common patterns like SSNs, credit cards, emails, phone numbers, and names. The Pro tier adds ML-powered detection for higher accuracy and context-aware analysis.',
+      a: 'Our regex-based detection catches common patterns like SSNs, credit cards, emails, phone numbers, and names. Advanced ML-powered detection for higher accuracy is coming soon.',
     },
     {
       q: 'Can I use PURGE offline?',
@@ -44,9 +44,6 @@ export default function Landing() {
           <div className="flex items-center gap-6">
             <a href="#features" className="text-forge-text-secondary hover:text-forge-accent transition-colors">
               Features
-            </a>
-            <a href="#pricing" className="text-forge-text-secondary hover:text-forge-accent transition-colors">
-              Pricing
             </a>
             <a href="#faq" className="text-forge-text-secondary hover:text-forge-accent transition-colors">
               FAQ
@@ -131,65 +128,6 @@ export default function Landing() {
             <TrustItem icon="check" text="No tracking or analytics" />
             <TrustItem icon="check" text="Open-source soon" />
             <TrustItem icon="check" text="Verify in DevTools" />
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6 bg-forge-bg-secondary border-t border-b border-forge-border">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">
-            <span className="text-forge-text-dim">//</span> Simple Pricing
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <PricingCard
-              tier="Free"
-              price="$0"
-              period="forever"
-              features={[
-                'Regex-based PII detection',
-                'SSN, credit card, email, phone',
-                'Basic name detection',
-                'Unlimited files',
-                'Offline mode support',
-              ]}
-              ctaText="Get Started"
-              ctaLink="/app"
-              highlighted={false}
-            />
-            <PricingCard
-              tier="Pro"
-              price="$19"
-              period="/month"
-              features={[
-                'Everything in Free, plus:',
-                'ML-powered detection (local)',
-                'Context-aware name recognition',
-                'Organization detection',
-                'Reduced false positives',
-                'Priority support',
-              ]}
-              ctaText="Coming Soon"
-              ctaLink="#"
-              highlighted={true}
-              badge="Popular"
-            />
-            <PricingCard
-              tier="Enterprise"
-              price="$99"
-              period="/month"
-              features={[
-                'Everything in Pro, plus:',
-                'Custom entity detection',
-                'Zero-shot NER (define your own)',
-                'Semantic verification',
-                'Attack path visualization',
-                'SSO & team management',
-              ]}
-              ctaText="Coming Soon"
-              ctaLink="#"
-              highlighted={false}
-            />
           </div>
         </div>
       </section>
@@ -289,61 +227,3 @@ function TrustItem({ icon, text }: { icon: string; text: string }) {
   );
 }
 
-function PricingCard({
-  tier,
-  price,
-  period,
-  features,
-  ctaText,
-  ctaLink,
-  highlighted,
-  badge,
-}: {
-  tier: string;
-  price: string;
-  period: string;
-  features: string[];
-  ctaText: string;
-  ctaLink: string;
-  highlighted: boolean;
-  badge?: string;
-}) {
-  return (
-    <div
-      className={`relative p-6 border ${
-        highlighted
-          ? 'border-forge-accent bg-forge-bg-tertiary'
-          : 'border-forge-border bg-forge-bg-tertiary'
-      }`}
-    >
-      {badge && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-forge-accent text-forge-bg-primary text-xs font-bold uppercase">
-          {badge}
-        </div>
-      )}
-      <h3 className="text-xl font-bold mb-2">{tier}</h3>
-      <div className="mb-6">
-        <span className="text-4xl font-bold text-forge-accent">{price}</span>
-        <span className="text-forge-text-dim">{period}</span>
-      </div>
-      <ul className="space-y-3 mb-8">
-        {features.map((feature, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-forge-text-secondary">
-            <span className="text-forge-success mt-0.5">{'\u2713'}</span>
-            {feature}
-          </li>
-        ))}
-      </ul>
-      <Link
-        to={ctaLink}
-        className={`block w-full py-3 text-center font-bold uppercase tracking-wider transition-colors ${
-          highlighted
-            ? 'bg-forge-accent text-forge-bg-primary hover:bg-forge-accent/90'
-            : 'border border-forge-border hover:border-forge-accent hover:text-forge-accent'
-        }`}
-      >
-        {ctaText}
-      </Link>
-    </div>
-  );
-}
