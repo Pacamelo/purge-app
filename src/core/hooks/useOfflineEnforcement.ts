@@ -353,13 +353,16 @@ export function useOfflineEnforcement(): UseOfflineEnforcementResult {
 
     markDownloaded: useCallback(() => {
       setHasDownloaded(true);
-      // For offline mode: immediately close after download
+      // For offline mode: close after download completes
       // For online mode: don't force close (they're already online, closing is security theater)
       if (!startedOnline) {
         // Transition to complete briefly, then force close
         setStatus('complete');
-        // Immediate close - no delay needed since user initiated download
-        forceCloseTab();
+        // Allow browser time to initiate download before navigating away
+        // The download click is processed asynchronously, so we need a brief delay
+        setTimeout(() => {
+          forceCloseTab();
+        }, 500);
       }
     }, [startedOnline]),
 
