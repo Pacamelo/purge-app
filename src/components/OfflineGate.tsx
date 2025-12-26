@@ -47,9 +47,6 @@ export function OfflineGate({
       return (
         <OfflineBlockedState
           onAcknowledgeOnlineRisk={offlineActions.acknowledgeOnlineRisk}
-          isOnline={offlineState.isOnline}
-          demoModeEnabled={offlineState.demoModeEnabled}
-          onToggleDemoMode={offlineActions.toggleDemoMode}
         />
       );
 

@@ -24,6 +24,7 @@ import { usePurgeStore } from '@/core/store/usePurgeStore';
 import { regexDetectionEngine } from '@/core/services/detection/RegexDetectionEngine';
 import { getProcessorForFile } from '@/core/services/processors';
 import { useFileEntropy } from './useFileEntropy';
+import { useOfflineQuota, QuotaExhaustedError } from './useOfflineQuota';
 import { generateSecureId } from '@/core/utils/secureRandom';
 import { getPartialMask } from '@/core/utils/partialMask';
 import { secureWarn, secureLog, safeFilename } from '@/core/utils/secureLogger';
@@ -122,6 +123,9 @@ export function useDocumentProcessor(): UseDocumentProcessorResult {
   // Entropy calculation hook
   const { calculateEntropy, compareEntropy } = useFileEntropy();
 
+  // Offline quota enforcement
+  const { canProcessFile, consumeToken, tokensRemaining } = useOfflineQuota();
+
   /**
    * Cleanup effect: Zero out and clear sensitive data on unmount.
    *
@@ -155,6 +159,20 @@ export function useDocumentProcessor(): UseDocumentProcessorResult {
    */
   const scanFiles = useCallback(
     async (files: QueuedFile[], config: ScrubConfig): Promise<Detection[]> => {
+      // Hard block: Check quota before ANY processing
+      if (!canProcessFile()) {
+        throw new QuotaExhaustedError(
+          `Offline quota exhausted (${tokensRemaining} tokens remaining). Go online to refresh.`
+        );
+      }
+
+      // Check if we have enough tokens for all files
+      if (tokensRemaining < files.length) {
+        throw new QuotaExhaustedError(
+          `Insufficient quota: ${tokensRemaining} tokens remaining, ${files.length} files queued. Go online to refresh.`
+        );
+      }
+
       setIsProcessing(true);
       setIsCalculatingEntropy(true);
       const allDetections: Detection[] = [];
@@ -166,6 +184,13 @@ export function useDocumentProcessor(): UseDocumentProcessorResult {
       try {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
+
+          // Per-file quota check (hard block)
+          if (!canProcessFile()) {
+            updateFileStatus(file.id, 'error', 'Quota exhausted');
+            // Hard stop - don't continue processing remaining files
+            break;
+          }
 
           setProgress({
             currentFileIndex: i,
@@ -224,6 +249,9 @@ export function useDocumentProcessor(): UseDocumentProcessorResult {
             allDetections.push(...result.detections);
             updateFileStatus(file.id, 'detected');
 
+            // Consume one quota token after successful file processing
+            await consumeToken();
+
             // Update before entropy with PII markers
             if (i === 0 && originalBytesRef.current) {
               const beforeEntropyWithPII = calculateEntropy(
@@ -273,7 +301,7 @@ export function useDocumentProcessor(): UseDocumentProcessorResult {
         setProgress(null);
       }
     },
-    [updateFileStatus, triggerJam, calculateEntropy]
+    [updateFileStatus, triggerJam, calculateEntropy, canProcessFile, consumeToken, tokensRemaining]
   );
 
   /**

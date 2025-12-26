@@ -11,7 +11,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    // Only generate source maps in development to prevent source code exposure
+    sourcemap: process.env.NODE_ENV === 'development',
   },
   server: {
     port: 3001,

@@ -320,12 +320,18 @@ export class XlsxProcessor extends BaseProcessor {
       XLSX.utils.book_append_sheet(newWorkbook, newSheet, sheetName);
     }
 
-    // Write to buffer (no document properties will be included)
+    // Add PURGE metadata (transparent branding, not hidden)
+    // This helps users track which files have been processed
+    newWorkbook.Props = {
+      Title: document.content.fileName.replace(/\.[^/.]+$/, '') + ' (PURGED)',
+      Author: 'PURGE - purgedata.app',
+      Comments: `Processed locally by PURGE on ${new Date().toISOString()}. No data was transmitted.`,
+    };
+
+    // Write to buffer with PURGE metadata
     const output = XLSX.write(newWorkbook, {
       type: 'array',
       bookType: 'xlsx',
-      // Explicitly don't include properties
-      Props: undefined,
     });
 
     return new Blob([output], {

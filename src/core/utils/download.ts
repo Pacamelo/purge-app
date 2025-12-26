@@ -6,6 +6,7 @@
  */
 
 import type { ProcessedFile } from '@/core/types';
+import { secureWarn } from '@/core/utils/secureLogger';
 
 /**
  * Download a single file by creating a temporary link
@@ -87,7 +88,7 @@ export async function downloadFilesAsZip(
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (error) {
-    console.warn('ZIP creation failed, falling back to individual downloads:', error);
+    secureWarn('ZIP creation failed, falling back to individual downloads', error);
     // Fallback to individual downloads if ZIP fails
     await downloadFilesSequentially(files);
   }

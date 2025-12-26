@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0d0d0d"/>
+
+  <!-- Logo centered -->
+  <g transform="translate(250, 220)">
+    <!-- P -->
+    <g id="letter-p">
+      <rect x="0" y="0" width="35" height="140" fill="#fff"/>
+      <rect x="0" y="0" width="105" height="35" fill="#fff"/>
+      <rect x="0" y="60" width="105" height="30" fill="#fff"/>
+      <rect x="78" y="0" width="27" height="90" fill="#fff"/>
+    </g>
+
+    <!-- U -->
+    <g id="letter-u" transform="translate(130, 0)">
+      <rect x="0" y="0" width="30" height="140" fill="#fff"/>
+      <rect x="75" y="0" width="30" height="140" fill="#fff"/>
+      <rect x="0" y="105" width="105" height="35" fill="#fff"/>
+    </g>
+
+    <!-- R -->
+    <g id="letter-r" transform="translate(260, 0)">
+      <rect x="0" y="0" width="30" height="140" fill="#fff"/>
+      <rect x="0" y="0" width="95" height="30" fill="#fff"/>
+      <rect x="0" y="55" width="95" height="28" fill="#fff"/>
+      <rect x="70" y="0" width="25" height="83" fill="#fff"/>
+      <polygon points="50,83 95,140 70,140 30,88 30,83" fill="#fff"/>
+    </g>
+
+    <!-- G -->
+    <g id="letter-g" transform="translate(380, 0)">
+      <rect x="25" y="0" width="87" height="30" fill="#fff"/>
+      <rect x="25" y="110" width="87" height="30" fill="#fff"/>
+      <rect x="0" y="25" width="30" height="90" fill="#fff"/>
+      <rect x="82" y="70" width="30" height="70" fill="#fff"/>
+      <rect x="52" y="70" width="60" height="25" fill="#fff"/>
+    </g>
+
+    <!-- E -->
+    <g id="letter-e" transform="translate(510, 0)">
+      <rect x="0" y="0" width="30" height="140" fill="#fff"/>
+      <rect x="0" y="0" width="105" height="30" fill="#fff"/>
+      <rect x="0" y="55" width="87" height="28" fill="#fff"/>
+      <rect x="0" y="110" width="105" height="30" fill="#fff"/>
+    </g>
+  </g>
+
+  <!-- Tagline -->
+  <text x="600" y="450" font-family="monospace" font-size="36" fill="#a0a0a0" text-anchor="middle">
+    Find what you missed.
+  </text>
+  <text x="600" y="500" font-family="monospace" font-size="24" fill="#606060" text-anchor="middle">
+    PII detection that runs entirely in your browser.
+  </text>
+
+  <!-- URL -->
+  <text x="600" y="580" font-family="monospace" font-size="20" fill="#606060" text-anchor="middle">
+    purgedata.app
+  </text>
+</svg>

@@ -16,13 +16,15 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { secureWarn, secureError } from '@/core/utils/secureLogger';
+import { secureWarn, secureError, secureLog } from '@/core/utils/secureLogger';
+import { useOfflineQuota } from './useOfflineQuota';
 
 export type OfflineEnforcementStatus =
   | 'online_blocked'
   | 'online_acknowledged' // User explicitly accepted online risk
   | 'offline_ready'
   | 'sw_blocked' // Service workers detected in offline mode - can't guarantee privacy
+  | 'quota_exhausted' // Offline quota used up - must go online to refresh
   | 'processing'
   | 'awaiting_download' // Processing complete, waiting for user to download
   | 'reconnected_abort'
@@ -49,8 +51,10 @@ export interface OfflineEnforcementState {
   maxExtensions: number;
   /** Whether processing started in online (acknowledged) mode - affects close behavior */
   startedOnline: boolean;
-  /** Whether demo mode is enabled (bypasses offline requirement) */
-  demoModeEnabled: boolean;
+  /** Remaining offline quota tokens */
+  quotaRemaining: number;
+  /** Whether offline quota is exhausted */
+  quotaExhausted: boolean;
 }
 
 /**
@@ -71,8 +75,6 @@ export interface OfflineEnforcementActions {
   reset: () => void;
   /** User explicitly acknowledges online risk and wants to proceed anyway */
   acknowledgeOnlineRisk: () => void;
-  /** Toggle demo mode on/off (persists to sessionStorage) */
-  toggleDemoMode: () => void;
 }
 
 /**
@@ -113,17 +115,15 @@ function getInitialOnlineState(): boolean {
   return true; // Assume online if we can't detect
 }
 
-/**
- * Get initial demo mode state from sessionStorage (SSR-safe)
- */
-function getInitialDemoModeState(): boolean {
-  if (typeof sessionStorage !== 'undefined') {
-    return sessionStorage.getItem('purge_demo_mode') === 'true';
-  }
-  return false;
-}
-
 export function useOfflineEnforcement(): UseOfflineEnforcementResult {
+  // Offline quota enforcement
+  const {
+    tokensRemaining,
+    isExhausted: quotaExhausted,
+    requestRefresh,
+    isInitialized: quotaInitialized,
+  } = useOfflineQuota();
+
   // Core state
   const [status, setStatus] = useState<OfflineEnforcementStatus>(
     getInitialOnlineState() ? 'online_blocked' : 'offline_ready'
@@ -133,7 +133,6 @@ export function useOfflineEnforcement(): UseOfflineEnforcementResult {
   const [hasDownloaded, setHasDownloaded] = useState(false);
   const [extensionsUsed, setExtensionsUsed] = useState(0);
   const [startedOnline, setStartedOnline] = useState(false); // Track if started in online mode
-  const [demoModeEnabled, setDemoModeEnabled] = useState(getInitialDemoModeState);
 
   // Refs for cleanup
   const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -142,11 +141,36 @@ export function useOfflineEnforcement(): UseOfflineEnforcementResult {
   // H-2 FIX: Processing lock to prevent race conditions in startProcessing
   const isStartingProcessingRef = useRef(false);
 
+  // Update status to quota_exhausted when quota runs out while offline
+  useEffect(() => {
+    if (quotaInitialized && quotaExhausted && !isOnline && status === 'offline_ready') {
+      setStatus('quota_exhausted');
+    }
+  }, [quotaInitialized, quotaExhausted, isOnline, status]);
+
+  // Attempt quota refresh when going online with exhausted quota
+  useEffect(() => {
+    if (isOnline && quotaExhausted && quotaInitialized) {
+      secureLog('Online with exhausted quota, attempting refresh...');
+      requestRefresh().then((result) => {
+        if (result.success) {
+          secureLog(`Quota refreshed: ${result.tokens} tokens`);
+          // Return to online_blocked state (normal online flow)
+          setStatus('online_blocked');
+        } else {
+          secureLog(`Quota refresh failed: ${result.reason}`);
+        }
+      });
+    }
+  }, [isOnline, quotaExhausted, quotaInitialized, requestRefresh]);
+
   // Derived state - online_acknowledged also allows processing (with trust warning)
+  // Also check that quota is not exhausted
   const canProcess =
-    status === 'offline_ready' ||
-    status === 'online_acknowledged' ||
-    status === 'processing';
+    (status === 'offline_ready' ||
+      status === 'online_acknowledged' ||
+      status === 'processing') &&
+    !quotaExhausted;
 
   /**
    * Clear countdown interval
@@ -370,27 +394,6 @@ export function useOfflineEnforcement(): UseOfflineEnforcementResult {
         setStatus('online_acknowledged');
       }
     }, [status, isOnline]),
-
-    toggleDemoMode: useCallback(() => {
-      const newValue = !demoModeEnabled;
-      setDemoModeEnabled(newValue);
-
-      if (newValue) {
-        // Enabling demo mode
-        sessionStorage.setItem('purge_demo_mode', 'true');
-        // Auto-acknowledge online risk if currently blocked
-        if (status === 'online_blocked' && isOnline) {
-          setStatus('online_acknowledged');
-        }
-      } else {
-        // Disabling demo mode
-        sessionStorage.removeItem('purge_demo_mode');
-        // Return to blocked state if online and was acknowledged
-        if (isOnline && status === 'online_acknowledged') {
-          setStatus('online_blocked');
-        }
-      }
-    }, [demoModeEnabled, status, isOnline]),
   };
 
   return {
@@ -403,7 +406,8 @@ export function useOfflineEnforcement(): UseOfflineEnforcementResult {
       extensionsUsed,
       maxExtensions: MAX_EXTENSIONS,
       startedOnline,
-      demoModeEnabled,
+      quotaRemaining: tokensRemaining,
+      quotaExhausted,
     },
     actions,
   };
