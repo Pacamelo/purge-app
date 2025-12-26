@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" fill="none">
+  <!-- PURGE Logo: Black redaction bars with geometric negative space cuts -->
+
+  <!-- P -->
+  <g id="letter-p">
+    <!-- Main vertical bar -->
+    <rect x="0" y="0" width="20" height="80" fill="#000"/>
+    <!-- Top horizontal bar -->
+    <rect x="0" y="0" width="60" height="20" fill="#000"/>
+    <!-- Middle horizontal bar -->
+    <rect x="0" y="35" width="60" height="18" fill="#000"/>
+    <!-- Right vertical connecting piece -->
+    <rect x="45" y="0" width="15" height="53" fill="#000"/>
+    <!-- Cut-out for P bowl -->
+    <rect x="20" y="20" width="25" height="15" fill="transparent"/>
+  </g>
+
+  <!-- U -->
+  <g id="letter-u" transform="translate(75, 0)">
+    <!-- Left vertical bar -->
+    <rect x="0" y="0" width="18" height="80" fill="#000"/>
+    <!-- Right vertical bar -->
+    <rect x="42" y="0" width="18" height="80" fill="#000"/>
+    <!-- Bottom connecting bar -->
+    <rect x="0" y="60" width="60" height="20" fill="#000"/>
+  </g>
+
+  <!-- R -->
+  <g id="letter-r" transform="translate(150, 0)">
+    <!-- Main vertical bar -->
+    <rect x="0" y="0" width="18" height="80" fill="#000"/>
+    <!-- Top horizontal bar -->
+    <rect x="0" y="0" width="55" height="18" fill="#000"/>
+    <!-- Middle horizontal bar -->
+    <rect x="0" y="32" width="55" height="16" fill="#000"/>
+    <!-- Right vertical for bowl -->
+    <rect x="40" y="0" width="15" height="48" fill="#000"/>
+    <!-- Diagonal leg -->
+    <polygon points="30,48 55,80 40,80 18,52 18,48" fill="#000"/>
+  </g>
+
+  <!-- G -->
+  <g id="letter-g" transform="translate(220, 0)">
+    <!-- Top bar -->
+    <rect x="15" y="0" width="50" height="18" fill="#000"/>
+    <!-- Bottom bar -->
+    <rect x="15" y="62" width="50" height="18" fill="#000"/>
+    <!-- Left vertical -->
+    <rect x="0" y="15" width="18" height="50" fill="#000"/>
+    <!-- Right vertical (partial) -->
+    <rect x="47" y="40" width="18" height="40" fill="#000"/>
+    <!-- Middle inward bar -->
+    <rect x="30" y="40" width="35" height="15" fill="#000"/>
+  </g>
+
+  <!-- E -->
+  <g id="letter-e" transform="translate(295, 0)">
+    <!-- Left vertical bar -->
+    <rect x="0" y="0" width="18" height="80" fill="#000"/>
+    <!-- Top horizontal bar -->
+    <rect x="0" y="0" width="60" height="18" fill="#000"/>
+    <!-- Middle horizontal bar -->
+    <rect x="0" y="32" width="50" height="16" fill="#000"/>
+    <!-- Bottom horizontal bar -->
+    <rect x="0" y="62" width="60" height="18" fill="#000"/>
+  </g>
+</svg>

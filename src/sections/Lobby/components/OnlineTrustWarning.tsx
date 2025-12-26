@@ -38,65 +38,43 @@ export function OnlineTrustWarning({ onDismiss, onAcknowledge }: OnlineTrustWarn
 
         {/* Body */}
         <div className="p-6 space-y-6">
-          {/* Visual Comparison: Offline vs Online */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-forge-success/10 border border-forge-success/30 p-4 rounded-sm">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 rounded-full bg-forge-success/20 flex items-center justify-center">
-                  <ShieldCheckIcon className="text-forge-success" />
-                </span>
-                <span className="font-mono text-sm text-forge-success uppercase">Offline</span>
-              </div>
-              <p className="font-mono text-xs text-forge-text-secondary">
-                Verifiable privacy - network requests are blocked
-              </p>
-            </div>
-            <div className="bg-forge-warning/10 border border-forge-warning/30 p-4 rounded-sm">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 rounded-full bg-forge-warning/20 flex items-center justify-center">
-                  <ShieldAlertIcon className="text-forge-warning" />
-                </span>
-                <span className="font-mono text-sm text-forge-warning uppercase">Online</span>
-              </div>
-              <p className="font-mono text-xs text-forge-text-secondary">
-                Trust-based privacy - you trust the site
-              </p>
-            </div>
-          </div>
-
-          {/* Trust Statement - Softened */}
+          {/* Trust Statement */}
           <div className="bg-forge-bg-secondary border border-forge-border p-4">
             <p className="text-forge-text-primary font-mono text-sm mb-3">
-              When online, you're trusting that:
+              By proceeding online, you are trusting that:
             </p>
             <ul className="space-y-2 font-mono text-sm">
               <li className="flex gap-2">
-                <span className="text-forge-text-dim">&#8226;</span>
+                <span className="text-forge-warning">&#8226;</span>
                 <span className="text-forge-text-secondary">
-                  Your files stay in your browser
+                  This website will not transmit your data
                 </span>
               </li>
               <li className="flex gap-2">
-                <span className="text-forge-text-dim">&#8226;</span>
+                <span className="text-forge-warning">&#8226;</span>
                 <span className="text-forge-text-secondary">
-                  No hidden code is collecting data
+                  The code running in your browser is what it claims to be
                 </span>
               </li>
               <li className="flex gap-2">
-                <span className="text-forge-text-dim">&#8226;</span>
+                <span className="text-forge-warning">&#8226;</span>
                 <span className="text-forge-text-secondary">
-                  Extensions and scripts can't intercept
+                  No third-party scripts are intercepting your files
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-forge-warning">&#8226;</span>
+                <span className="text-forge-text-secondary">
+                  Browser extensions won't access your data
                 </span>
               </li>
             </ul>
           </div>
 
-          {/* Encouragement instead of harsh quote */}
+          {/* Reality Check */}
           <div className="text-center">
-            <p className="text-forge-text-dim font-mono text-xs">
-              For non-sensitive files, online mode works great.
-              <br />
-              For anything confidential, offline is the gold standard.
+            <p className="text-forge-text-dim font-mono text-xs italic">
+              "You are trusting a stranger on the internet with claims they won't touch your data."
             </p>
           </div>
 
@@ -154,25 +132,5 @@ export function OnlineTrustWarning({ onDismiss, onAcknowledge }: OnlineTrustWarn
         </div>
       </div>
     </div>
-  );
-}
-
-/** Shield icons for visual comparison */
-function ShieldCheckIcon({ className }: { className?: string }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
-
-function ShieldAlertIcon({ className }: { className?: string }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="M12 8v4" />
-      <path d="M12 16h.01" />
-    </svg>
   );
 }

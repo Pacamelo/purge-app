@@ -1,200 +1,156 @@
 /**
- * PURGE Marketing Landing Page
- * purgedata.app
+ * PURGE Landing Page
+ * Minimal hero design - straight to app
  */
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { LogoReveal, PurgeLogo } from '../components/Brand';
+import { DemoPreview } from '../components/Landing';
 
 export default function Landing() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const faqs = [
-    {
-      q: 'How does PURGE keep my data private?',
-      a: 'PURGE runs entirely in your browser. Your files are processed locally using JavaScript - no data ever leaves your device. We use no external APIs, no cloud services, and no server-side processing.',
-    },
-    {
-      q: 'What file types are supported?',
-      a: 'Currently PURGE supports Excel files (.xlsx). Support for CSV, PDF, and other document formats is coming soon.',
-    },
-    {
-      q: 'How accurate is the PII detection?',
-      a: 'Our regex-based detection catches common patterns like SSNs, credit cards, emails, phone numbers, and names. Advanced ML-powered detection for higher accuracy is coming soon.',
-    },
-    {
-      q: 'Can I use PURGE offline?',
-      a: 'Yes! In fact, we recommend it. For maximum privacy assurance, enable airplane mode before processing sensitive documents. PURGE works 100% offline after the initial page load.',
-    },
-    {
-      q: 'What happens to my files after processing?',
-      a: 'Nothing - they stay in your browser memory until you download the redacted version. We don\'t store, cache, or transmit your files. When you close the tab, everything is gone.',
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-forge-bg-primary text-forge-text-primary font-mono">
-      {/* Navigation */}
-      <nav className="border-b border-forge-border bg-forge-bg-secondary">
+    <div className="min-h-screen bg-forge-bg-primary text-forge-text-primary font-mono flex flex-col">
+      {/* Minimal Navigation */}
+      <nav className="absolute top-0 left-0 right-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-forge-text-dim">[</span>
-            <span className="text-forge-accent text-xl font-bold">PURGE</span>
-            <span className="text-forge-text-dim">]</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <a href="#features" className="text-forge-text-secondary hover:text-forge-accent transition-colors">
-              Features
-            </a>
-            <a href="#faq" className="text-forge-text-secondary hover:text-forge-accent transition-colors">
-              FAQ
-            </a>
-            <Link
-              to="/app"
-              className="px-4 py-2 bg-forge-accent text-forge-bg-primary font-bold uppercase tracking-wider hover:bg-forge-accent/90 transition-colors"
-            >
-              Launch App
-            </Link>
-          </div>
+          <PurgeLogo size="sm" variant="white" />
+          <Link
+            to="/app"
+            className="px-4 py-2 bg-white text-forge-bg-primary font-bold uppercase tracking-wider text-sm hover:bg-forge-text-primary transition-colors"
+          >
+            Launch
+          </Link>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="text-forge-text-dim">[</span>
-            <span className="text-forge-accent">PURGE</span>
-            <span className="text-forge-text-dim">]</span>
-          </h1>
+      {/* Hero Section - Takes 80%+ of viewport */}
+      <section className="flex-1 flex flex-col items-center justify-center px-6 py-24">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Large Animated Logo */}
+          <div className="mb-8">
+            <LogoReveal className="mx-auto" />
+          </div>
+
+          {/* Tagline - Lead with the differentiator */}
           <p className="text-2xl md:text-3xl text-forge-text-secondary mb-4">
-            Find what you missed.
+            PII detection designed for offline use.
           </p>
-          <p className="text-lg text-forge-text-dim mb-12 max-w-2xl mx-auto">
-            PII detection that runs entirely in your browser.
-            <br />
-            <span className="text-forge-accent">Your data never leaves your device.</span>
+          <p className="text-base md:text-lg text-forge-text-dim mb-6 max-w-2xl mx-auto">
+            Go offline. Process your sensitive documents.
+            <span className="text-white font-medium"> No network connection means no network exfiltration.</span>
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          {/* Core Value Prop - Offline Security */}
+          <div className="mb-10 p-6 bg-forge-bg-secondary/70 border border-forge-accent/30 max-w-2xl mx-auto">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-forge-accent/20 border border-forge-accent/50 flex items-center justify-center">
+                <ShieldOfflineIcon />
+              </div>
+              <div className="text-left">
+                <h3 className="text-forge-accent font-bold uppercase tracking-wider mb-2">
+                  Why Offline Matters
+                </h3>
+                <p className="text-forge-text-secondary text-sm leading-relaxed">
+                  Other tools ask you to <em>trust</em> that they won't upload your data.
+                  With airplane mode enabled, <strong className="text-white">network exfiltration isn't possible</strong>—there's
+                  no connection to exfiltrate over. Your SSNs, medical records, and financial data
+                  stay on your device because there's nowhere else for them to go.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Trust Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+            <TrustBadge
+              icon={<AirplaneIcon />}
+              title="Works Offline"
+              description="No network required"
+            />
+            <TrustBadge
+              icon={<LockIcon />}
+              title="Browser-Only"
+              description="No servers involved"
+            />
+            <TrustBadge
+              icon={<UserOffIcon />}
+              title="No Account"
+              description="Nothing to sign up for"
+            />
+            <TrustBadge
+              icon={<CodeIcon />}
+              title="Open Source"
+              description="Inspect the code"
+            />
+          </div>
+
+          {/* Primary CTA */}
+          <Link
+            to="/app"
+            className="inline-block px-10 py-5 bg-white text-forge-bg-primary font-bold text-lg uppercase tracking-wider hover:bg-forge-text-primary transition-all shadow-[6px_6px_0px_0px] shadow-white/20 hover:shadow-[8px_8px_0px_0px] hover:shadow-white/30"
+          >
+            Try Now
+          </Link>
+
+          {/* Secondary link */}
+          <div className="mt-6">
             <Link
               to="/app"
-              className="px-8 py-4 bg-forge-accent text-forge-bg-primary font-bold text-lg uppercase tracking-wider hover:bg-forge-accent/90 transition-colors shadow-[4px_4px_0px_0px] shadow-forge-accent/30"
+              className="text-forge-text-dim hover:text-white transition-colors text-sm"
             >
-              Try Free - No Account Required
+              No signup required &rarr;
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-forge-bg-secondary border-t border-b border-forge-border">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">
-            <span className="text-forge-text-dim">//</span> Why PURGE?
+      {/* How It Works Section */}
+      <section className="py-16 px-6 border-t border-forge-border bg-forge-bg-secondary/30">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-center text-lg text-forge-text-dim uppercase tracking-wider mb-10">
+            How It Works
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon="shield"
-              title="Truly Private"
-              description="Unlike AWS Macie or Google DLP, PURGE never uploads your data. Everything happens in your browser - verify it yourself in DevTools."
+
+          {/* Three Step Process */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-12">
+            <HowItWorksStep
+              number={1}
+              icon={<UploadIcon />}
+              title="Drop"
+              description="Upload your document"
             />
-            <FeatureCard
-              icon="search"
-              title="Smart Detection"
-              description="Catches SSNs, credit cards, emails, phone numbers, names, and more. Context-aware analysis reduces false positives."
+            <StepConnector />
+            <HowItWorksStep
+              number={2}
+              icon={<ScanIcon />}
+              title="Detect"
+              description="AI finds sensitive data"
             />
-            <FeatureCard
-              icon="chart"
-              title="Quasi-ID Alerts"
-              description="Detects dangerous combinations like ZIP + DOB that can re-identify individuals even after redaction."
+            <StepConnector />
+            <HowItWorksStep
+              number={3}
+              icon={<DownloadIcon />}
+              title="Download"
+              description="Get your clean file"
             />
           </div>
-        </div>
-      </section>
 
-      {/* Trust Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">
-            <span className="text-forge-text-dim">//</span> Your Data Stays Yours
-          </h2>
-          <p className="text-lg text-forge-text-secondary mb-8">
-            Privacy isn't a feature - it's the architecture. PURGE was built from day one
-            to process everything client-side. No accounts, no cloud, no telemetry.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6 text-left">
-            <TrustItem icon="check" text="No server uploads" />
-            <TrustItem icon="check" text="No account required" />
-            <TrustItem icon="check" text="Works 100% offline" />
-            <TrustItem icon="check" text="No tracking or analytics" />
-            <TrustItem icon="check" text="Open-source soon" />
-            <TrustItem icon="check" text="Verify in DevTools" />
+          {/* Live Demo Preview */}
+          <div className="mt-8">
+            <p className="text-center text-forge-text-dim text-xs uppercase tracking-wider mb-4">
+              Live Preview
+            </p>
+            <DemoPreview />
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <span className="text-forge-text-dim">//</span> FAQ
-          </h2>
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="border border-forge-border bg-forge-bg-secondary"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-forge-bg-tertiary transition-colors"
-                >
-                  <span className="font-medium">{faq.q}</span>
-                  <span className="text-forge-accent text-xl">
-                    {openFaq === i ? '-' : '+'}
-                  </span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4 text-forge-text-secondary">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-forge-bg-secondary border-t border-forge-border">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to PURGE?</h2>
-          <p className="text-lg text-forge-text-secondary mb-8">
-            Start detecting PII in your documents. No signup, no credit card.
-          </p>
-          <Link
-            to="/app"
-            className="inline-block px-8 py-4 bg-forge-accent text-forge-bg-primary font-bold text-lg uppercase tracking-wider hover:bg-forge-accent/90 transition-colors shadow-[4px_4px_0px_0px] shadow-forge-accent/30"
-          >
-            Launch PURGE
-          </Link>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-forge-border">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-forge-text-dim">[</span>
-            <span className="text-forge-accent font-bold">PURGE</span>
-            <span className="text-forge-text-dim">]</span>
-            <span className="text-forge-text-dim text-sm ml-2">
-              Private/Universal Redaction & Governance Engine
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-sm text-forge-text-secondary">
-            <a href="#" className="hover:text-forge-accent transition-colors">Privacy</a>
-            <a href="#" className="hover:text-forge-accent transition-colors">Terms</a>
-            <a href="#" className="hover:text-forge-accent transition-colors">Contact</a>
+      {/* Minimal Footer */}
+      <footer className="border-t border-forge-border">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between text-xs text-forge-text-dim">
+          <span>purgedata.app</span>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
           </div>
         </div>
       </footer>
@@ -202,28 +158,142 @@ export default function Landing() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: string; title: string; description: string }) {
-  const iconMap: Record<string, string> = {
-    shield: '\u{1F6E1}',
-    search: '\u{1F50D}',
-    chart: '\u{1F4CA}',
-  };
-
+/** Trust badge with icon and description */
+function TrustBadge({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
-    <div className="p-6 border border-forge-border bg-forge-bg-tertiary">
-      <div className="text-4xl mb-4">{iconMap[icon]}</div>
-      <h3 className="text-xl font-bold mb-3 text-forge-accent">{title}</h3>
-      <p className="text-forge-text-secondary">{description}</p>
+    <div className="flex items-center gap-3 px-4 py-3 bg-forge-bg-secondary/50 border border-forge-border/50 rounded-sm hover:border-forge-accent/30 transition-colors">
+      <div className="text-forge-accent text-xl">{icon}</div>
+      <div className="text-left">
+        <div className="text-sm font-medium text-forge-text-primary">{title}</div>
+        <div className="text-xs text-forge-text-dim">{description}</div>
+      </div>
     </div>
   );
 }
 
-function TrustItem({ icon, text }: { icon: string; text: string }) {
+/** SVG Icons */
+function LockIcon() {
   return (
-    <div className="flex items-center gap-3 p-3 border border-forge-border bg-forge-bg-secondary">
-      <span className="text-forge-success text-lg">{icon === 'check' ? '\u2713' : icon}</span>
-      <span className="text-forge-text-secondary">{text}</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
+function AirplaneIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+    </svg>
+  );
+}
+
+function UserOffIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <line x1="17" y1="8" x2="23" y2="8" />
+    </svg>
+  );
+}
+
+function CodeIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  );
+}
+
+function ShieldOfflineIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-forge-accent">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  );
+}
+
+/** How It Works Step */
+function HowItWorksStep({
+  number,
+  icon,
+  title,
+  description,
+}: {
+  number: number;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <div className="relative">
+        <div className="w-16 h-16 rounded-full bg-forge-bg-tertiary border-2 border-forge-border flex items-center justify-center text-forge-accent">
+          {icon}
+        </div>
+        <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-forge-accent text-forge-bg-primary text-xs font-bold flex items-center justify-center">
+          {number}
+        </span>
+      </div>
+      <h3 className="mt-3 text-forge-text-primary font-medium uppercase tracking-wider">
+        {title}
+      </h3>
+      <p className="mt-1 text-forge-text-dim text-xs">{description}</p>
     </div>
   );
 }
 
+function StepConnector() {
+  return (
+    <div className="hidden md:flex items-center text-forge-border">
+      <div className="w-12 h-0.5 bg-forge-border" />
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </div>
+  );
+}
+
+function UploadIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
+  );
+}
+
+function ScanIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+      <line x1="7" y1="12" x2="17" y2="12" />
+    </svg>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}

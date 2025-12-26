@@ -87,16 +87,38 @@ export const LumbergSpeech = memo(function LumbergSpeech({
       <p className="text-sm text-forge-text-secondary italic font-mono">
         "{quote}"
       </p>
-      <p className="text-[10px] text-forge-text-dim mt-2 uppercase tracking-wider">
-        — Bill Lumbergh, Document Shredder
-      </p>
+
+      {/* Attribution with avatar */}
+      <div className="flex items-center gap-2 mt-3 pt-2 border-t border-forge-border/50">
+        <div className="w-6 h-6 rounded-full bg-forge-bg-secondary border border-forge-border flex items-center justify-center">
+          <LumbergAvatar />
+        </div>
+        <div>
+          <p className="text-[10px] text-forge-text-dim uppercase tracking-wider">
+            Bill Lumbergh
+          </p>
+          <p className="text-[9px] text-forge-text-dim/70">
+            Document Shredder • Office Space
+          </p>
+        </div>
+      </div>
 
       {/* Milton easter egg at rage level */}
       {jamCount >= 5 && (
         <div className="absolute -bottom-6 right-4 text-xs text-forge-error animate-pulse">
-          🔴 Have you seen my stapler?
+          Have you seen my stapler?
         </div>
       )}
     </div>
   );
 });
+
+/** Simple avatar icon representing Lumbergh */
+function LumbergAvatar() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-forge-text-dim">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    </svg>
+  );
+}
